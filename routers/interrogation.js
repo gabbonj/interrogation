@@ -1,20 +1,11 @@
 const express = require('express')
 const router = express.Router()
+const mongoSetup = require('../mongosetup')
 
-const MongoClient  = require('mongodb').MongoClient
-const url = 'mongodb://localhost:27017'
-const dbName = 'interrogation'
-
-function connect(url, name, task) {
-    MongoClient.connect(url).then((client) => {
-        var db = client.db(name)
-        task(db)
-    })
-}
 
 // get all the calendars
 router.get('/', (req, res) => {
-    connect(url, dbName, db => {
+    mongoSetup.connect(db => {
         db.collection('calendars').find().toArray((err, result) => {
             if (err) throw err
             res.json(result)
@@ -25,7 +16,7 @@ router.get('/', (req, res) => {
 // get calendars by subject
 router.get('/subject/:name', (req, res) => {
     const subject_name = req.params.name
-    connect(url, dbName, db => {
+    mongoSetup.connect(db => {
         db.collection('calendars').find({'subject' : subject_name}).toArray((err, result) => {
             if (err) throw err
             res.json(result)
@@ -36,7 +27,7 @@ router.get('/subject/:name', (req, res) => {
 // get calendar days
 router.get('/days', (req, res) => {
     var out = []
-    connect(url, dbName, db => {
+    mongoSetup.connect(db => {
         db.collection('calendars').find().toArray((err, result) => {
             if (err) throw err
             result.forEach(calendar => {
@@ -54,7 +45,7 @@ router.get('/days', (req, res) => {
 router.get('/subject/:name/days', (req, res) => {
     var out = []
     const subject_name = req.params.name
-    connect(url, dbName, db => {
+    mongoSetup.connect(db => {
         db.collection('calendars').find({'subject' : subject_name}).toArray((err, result) => {
             if (err) throw err
             result.forEach(calendar => {
@@ -67,5 +58,6 @@ router.get('/subject/:name/days', (req, res) => {
         })
     })
 })
+
 
 module.exports = router
