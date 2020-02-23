@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 100;
+    background-color: #F6F8FA;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #24292E;
+    color: white;
+}
+
+header h1 {
+    margin: 10px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    transition-property: letter-spacing;
+    transition-duration: 500ms;
+}
+
+header h1:hover {
+    letter-spacing: 5px;
+    transition-property: letter-spacing;
+    transition-duration: 500ms;
+}
+
+div#board {
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+}
+

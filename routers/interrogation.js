@@ -31,7 +31,7 @@ router.get('/days', (req, res) => {
         db.collection('calendars').find().toArray((err, result) => {
             if (err) throw err
             result.forEach(calendar => {
-                out.push({'subject' : calendar.subject, 'days' : []})
+                out.push({id : calendar._id, 'subject' : calendar.subject, 'days' : []})
                 calendar.days.forEach(day => {
                     out[out.length - 1].days.push(day.date)
                 });
@@ -49,7 +49,7 @@ router.get('/subject/:name/days', (req, res) => {
         db.collection('calendars').find({'subject' : subject_name}).toArray((err, result) => {
             if (err) throw err
             result.forEach(calendar => {
-                out.push({'subject' : calendar.subject, 'days' : []})
+                out.push({id : calendar._id, 'subject' : calendar.subject, 'days' : []})
                 calendar.days.forEach(day => {
                     out[out.length - 1].days.push(day.date)
                 });
