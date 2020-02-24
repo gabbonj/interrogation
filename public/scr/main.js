@@ -4,8 +4,9 @@ var mode = ''
 
 function loadAllCalendars() {
     mode = 'calendars'
+    board.style.flexDirection  = 'row'
     board.innerHTML = ''
-    fetchallCalendars((calendars) => {
+    fetchAllCalendars(calendars => {
         var index = 0
         calendars.forEach(element => {
             drawCalendar(element, index)
@@ -16,8 +17,14 @@ function loadAllCalendars() {
 
 function loadAllDays(){
     mode = 'days'
+    board.style.flexDirection  = 'column'
+    board.style.justifyContent  = 'centre'
     board.innerHTML = ''
-    //TODO
+    fetchAllDays(days => {
+        days.forEach(element => {
+            drawDay(element)
+        });
+    })
 }
 
 document.getElementById('calendars').onclick = loadAllCalendars

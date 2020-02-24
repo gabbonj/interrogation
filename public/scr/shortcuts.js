@@ -1,11 +1,20 @@
 
-function fetchallCalendars(calback) {
+function fetchAllCalendars(calback) {
     fetch('http://localhost:8080/api/interrogations/')
     .then(res => {
         return res.json()
     }).then(data => {
         calback(data)
     })
+}
+
+function fetchAllDays(calback) {
+    fetch('http://localhost:8080/api/interrogations/days')
+        .then(res => {
+            return res.json()
+        }).then(data => {
+            calback(data)
+        })
 }
 
 
@@ -39,4 +48,17 @@ function drawCalendar(calendar, id) {
         });
         i += 1
     });
+}
+
+function drawDay(day) {
+    board.innerHTML += 
+        `<div class="dd">\
+            <div class="name">\
+                <h4>${day.subject.toUpperCase()}</h4>\
+            </div>\
+            \
+            <div class="days">\
+                <h4></h4>\
+            </div>\
+        </div>`
 }
