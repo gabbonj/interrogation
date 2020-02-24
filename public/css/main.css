@@ -1,9 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: 100;
+    font-family: 'Roboto', Thin;
+    font-style: Thin;
     background-color: #F6F8FA;
 }
 
@@ -17,10 +16,11 @@ header {
 
 header h1 {
     margin: 10px;
-    font-size: 20px;
+    font-size: 40   px;
     letter-spacing: 2px;
     transition-property: letter-spacing;
     transition-duration: 500ms;
+    font-weight: inherit;
 }
 
 header h1:hover {
@@ -33,6 +33,42 @@ div#board {
     height: auto;
     width: auto;
     display: flex;
+    flex-flow: wrap;
     justify-content: center;
 }
 
+#board div.calendar {
+    width: 400px;
+    height: 600px;
+    background: white;
+    margin: 10px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.09);
+    transition-property: transform;
+    transition-duration: 500ms;
+}
+
+.card {
+    width: auto;
+}
+
+.calendar:hover {
+    transform: translateY(-4px);
+    transition-property: transform;
+    transition-duration: 500ms;
+}
+
+.calendar div.cardtitle {
+    position: relative;
+    height: 35px;
+    border-bottom: 1px solid #CBCBCB;
+    text-align: center;
+    margin: 0;
+}
+
+.calendar div.cardtitle h4{
+    position: relative;
+    height: fit-content;
+    margin: 0;
+    font-size: 30px;
+    font-weight: lighter;
+}
