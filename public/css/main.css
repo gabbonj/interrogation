@@ -17,16 +17,25 @@ header {
 header h1 {
     margin: 10px;
     font-size: 40   px;
-    letter-spacing: 2px;
-    transition-property: letter-spacing;
-    transition-duration: 500ms;
+    letter-spacing: 2px;   
     font-weight: inherit;
+    color: #ff8d00;
 }
 
-header h1:hover {
-    letter-spacing: 5px;
-    transition-property: letter-spacing;
-    transition-duration: 500ms;
+header a{
+    color: white;
+    text-decoration: none;
+    margin: 0 50px;
+    padding: 5px;
+    font-size: 20px;
+    cursor: default;
+}
+
+header a:hover{
+    border: 1px solid white;
+    text-decoration: none;
+    margin: 0 49px;
+    padding: 5px;
 }
 
 div#board {
@@ -102,7 +111,7 @@ div#board {
 }
 
 h4.pearson {
-    transition-duration: 500ms;
+    transition-duration: 500ms;     
 }
 
 h4.pearson:hover {

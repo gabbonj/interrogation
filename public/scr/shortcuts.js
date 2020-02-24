@@ -1,5 +1,5 @@
 
-function fetchall(calback) {
+function fetchallCalendars(calback) {
     fetch('http://localhost:8080/api/interrogations/')
     .then(res => {
         return res.json()
