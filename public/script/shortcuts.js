@@ -1,6 +1,10 @@
+//localhost
+//192.168.1.105
+const urlstart = 'localhost'
+
 
 function fetchAllCalendars(calback) {
-    fetch('http://localhost:8080/api/interrogations/')
+    fetch(`http://${urlstart}:8080/api/interrogations/`)
     .then(res => {
         return res.json()
     }).then(data => {
@@ -9,7 +13,7 @@ function fetchAllCalendars(calback) {
 }
 
 function fetchAllDays(calback) {
-    fetch('http://localhost:8080/api/interrogations/days')
+    fetch(`http://${urlstart}:8080/api/interrogations/days`)
         .then(res => {
             return res.json()
         }).then(data => {
@@ -18,7 +22,7 @@ function fetchAllDays(calback) {
 }
 
 function fetchFilteredCalendars(name, calback) {
-    fetch(`http://localhost:8080/api/interrogations/subject/${name}`)
+    fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase() }`)
         .then(res => {
             return res.json()
         }).then(data => {
@@ -30,7 +34,7 @@ function fetchFilteredDays(name, calback) {
     if (name === ''){
         fetchAllDays(calback)
     }else{
-        fetch(`http://localhost:8080/api/interrogations/subject/${name}/days`)
+        fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase() }/days`)
         .then(res => {
             return res.json()
         }).then(data => {
