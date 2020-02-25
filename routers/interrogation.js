@@ -13,6 +13,10 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/subject', (req, res) => {
+    res.redirect('/api/interrogations')
+})
+
 // get calendars by subject
 router.get('/subject/:name', (req, res) => {
     const subject_name = req.params.name

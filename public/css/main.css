@@ -6,6 +6,10 @@ body {
     background-color: #F6F8FA;
 }
 
+h4 {
+    margin: 0;
+}
+
 header {
     display: flex;
     justify-content: center;
@@ -36,6 +40,50 @@ header a:hover{
     text-decoration: none;
     margin: 0 49px;
     padding: 5px;
+}
+
+div.searchbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+div.searchbar h4 {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+div.searchbar input{
+    text-align: center;
+    font-family: inherit;
+    border: none;
+    border-bottom: 1px solid #CBCBCB;
+    background: none;
+    outline: none;
+}
+
+div.searchbar input:focus::placeholder {
+    color: transparent;
+}
+
+div.searchbar button.filterbutton {
+    outline: none;
+    margin-left: 10px;
+    background: white;
+    border: 1px solid black;
+    transition-property: transform, color,  background-color, border;
+    transition-duration: 200ms;
+}
+
+div.searchbar button.filterbutton:active {
+    transform: translateY(2px);
+}
+
+div.searchbar button.filterbutton:hover {
+    color: white;
+    background-color: green;
+    border: 1px solid green;
 }
 
 div#board {
@@ -122,7 +170,7 @@ h4.pearson:hover {
 
 
 div.dd {
-    width: 600px;
+    width: 70%;
     height: 50px;
     margin: 0 auto;
     background: white;

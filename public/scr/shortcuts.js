@@ -17,6 +17,28 @@ function fetchAllDays(calback) {
         })
 }
 
+function fetchFilteredCalendars(name, calback) {
+    fetch(`http://localhost:8080/api/interrogations/subject/${name}`)
+        .then(res => {
+            return res.json()
+        }).then(data => {
+            calback(data)
+        })
+}
+
+function fetchFilteredDays(name, calback) {
+    if (name === ''){
+        fetchAllDays(calback)
+    }else{
+        fetch(`http://localhost:8080/api/interrogations/subject/${name}/days`)
+        .then(res => {
+            return res.json()
+        }).then(data => {
+            calback(data)
+        })
+    }
+}
+
 
 function drawCalendar(calendar, id) {
     board.innerHTML += `<div class="calendar" id ="c${id}"></div>`
