@@ -58,7 +58,7 @@ function drawDay(day) {
             </div>\
             \
             <div class="days">\
-                <h4></h4>\
+                <h4>|${day.days.toString().replace( /,/g, ' |---| ')}|</h4>\
             </div>\
         </div>`
 }
