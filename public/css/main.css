@@ -257,3 +257,26 @@ div.days h4{
     font-size: 20px;
     font-weight: lighter;
 }
+
+h4#removetitle {
+    font-size: 30px;
+}
+
+button.removebutton {
+    align-self: center;
+    height: fit-content;
+    outline: none;
+    margin-right: 10px;
+    padding: 10px;
+    background: white;
+    border: 1px solid #CBCBCB;
+    border-radius: 20px;
+    transition-property: color,  background-color, border;
+    transition-duration: 200ms;
+}
+
+button.removebutton:hover {
+    background-color: #FF5252;
+    border: 1px solid white;
+    color: white;
+}

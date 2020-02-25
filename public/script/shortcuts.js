@@ -2,6 +2,14 @@
 //192.168.1.105
 const urlstart = 'localhost'
 
+function boardRow() {
+    board.style.flexDirection  = 'row'
+}
+
+function boardColumn() {
+    board.style.flexDirection  = 'column'
+    board.style.justifyContent  = 'centre'
+}
 
 function fetchAllCalendars(calback) {
     fetch(`http://${urlstart}:8080/api/interrogations/`)
@@ -87,4 +95,26 @@ function drawDay(day) {
                 <h4>|${day.days.toString().replace( /,/g, ' |---| ')}|</h4>\
             </div>\
         </div>`
+}
+
+function drawRemoveItem(item) {
+    board.innerHTML += 
+        `<div class="dd">\
+            <div class="name">\
+                <h4>${item.subject.toUpperCase()}</h4>\
+            </div>\
+            \
+            <div class="days">\
+                <h4>| Inizio : ${item.days[1]} |</h4>\
+            </div>\
+
+            <button id="${item.id}" class="removebutton">Rimuovi</button>\
+        </div>`
+    
+    board.querySelectorAll('button.removebutton').forEach(butt => {
+        butt.addEventListener('click', (event) => {
+            console.log(event.target.id)
+            ///////// update te api
+        })
+    });
 }
