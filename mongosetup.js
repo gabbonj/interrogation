@@ -9,5 +9,6 @@ module.exports = {
             var db = client.db(dbName)
             task(db)
         })
-    }
+    },
+    ObjectId : require('mongodb').ObjectId
 }
