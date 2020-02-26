@@ -2,6 +2,10 @@
 //192.168.1.105
 const urlstart = 'localhost'
 
+const getRequest = { method : 'GET' }
+const postRequest = { method : 'POST' }
+const deleteRequest = { method : 'DELETE' }
+
 function boardRow() {
     board.style.flexDirection  = 'row'
 }
@@ -12,7 +16,7 @@ function boardColumn() {
 }
 
 function fetchAllCalendars(calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/`)
+    fetch(`http://${urlstart}:8080/api/interrogations/`, getRequest)
     .then(res => {
         return res.json()
     }).then(data => {
@@ -21,7 +25,7 @@ function fetchAllCalendars(calback) {
 }
 
 function fetchAllDays(calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/days`)
+    fetch(`http://${urlstart}:8080/api/interrogations/days`, getRequest)
         .then(res => {
             return res.json()
         }).then(data => {
@@ -30,7 +34,7 @@ function fetchAllDays(calback) {
 }
 
 function fetchFilteredCalendars(name, calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase() }`)
+    fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase()}`, getRequest)
         .then(res => {
             return res.json()
         }).then(data => {
@@ -42,13 +46,17 @@ function fetchFilteredDays(name, calback) {
     if (name === ''){
         fetchAllDays(calback)
     }else{
-        fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase() }/days`)
+        fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase()}/days`, getRequest)
         .then(res => {
             return res.json()
         }).then(data => {
             calback(data)
         })
     }
+}
+
+function fetchDeleteCalendar(id) {
+    fetch(`http://${urlstart}:8080/api/delete/${id}`, deleteRequest)
 }
 
 
@@ -112,9 +120,9 @@ function drawRemoveItem(item) {
         </div>`
     
     board.querySelectorAll('button.removebutton').forEach(butt => {
-        butt.addEventListener('click', (event) => {
-            console.log(event.target.id)
-            ///////// update te api
+        butt.addEventListener('click', event => {
+            fetchDeleteCalendar(event.target.id)
+            loadRemoveSection()
         })
     });
 }
