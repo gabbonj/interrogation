@@ -15,44 +15,20 @@ function boardColumn() {
     board.style.justifyContent  = 'centre'
 }
 
-function fetchAllCalendars(calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/`, getRequest)
-    .then(res => {
-        return res.json()
-    }).then(data => {
-        calback(data)
-    })
+function resetUi() {
+    board.innerHTML = ''
+    subjectfilter.value = ''
 }
 
-function fetchAllDays(calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/days`, getRequest)
+async function getJsonFromFetch(url) {
+    var out
+    await fetch(url, getRequest)
         .then(res => {
             return res.json()
         }).then(data => {
-            calback(data)
+            out = data
         })
-}
-
-function fetchFilteredCalendars(name, calback) {
-    fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase()}`, getRequest)
-        .then(res => {
-            return res.json()
-        }).then(data => {
-            calback(data)
-        })
-}
-
-function fetchFilteredDays(name, calback) {
-    if (name === ''){
-        fetchAllDays(calback)
-    }else{
-        fetch(`http://${urlstart}:8080/api/interrogations/subject/${name.toLowerCase()}/days`, getRequest)
-        .then(res => {
-            return res.json()
-        }).then(data => {
-            calback(data)
-        })
-    }
+    return out
 }
 
 function fetchDeleteCalendar(id) {
@@ -61,64 +37,94 @@ function fetchDeleteCalendar(id) {
 
 
 function drawCalendar(calendar, id) {
-    board.innerHTML += `<div class="calendar" id ="c${id}"></div>`
+    var container = document.createElement('div')
+    container.className = 'calendar'
 
-    var card = document.getElementById(`c${id}`)
-    card.innerHTML = 
-        `<div class="cardtitle card">\
-            <h4>${calendar.subject.toUpperCase()}</h4>\
-        </div>\
-        <div class="cardbody card"></div>`
+    var cardtitle = document.createElement('div')
+    cardtitle.className = 'cardtitle'
+    var cardtitletext = document.createElement('h4')
+    cardtitletext.innerHTML = `${calendar.subject.toUpperCase()}`
+    cardtitle.appendChild(cardtitletext)
+    container.appendChild(cardtitle)
 
-    var cardbody = document.querySelector(`#c${id} div.cardbody`)
-    calendar.days.forEach(day => {
-        cardbody.innerHTML += '<div class="day"></div>'
-    });
+    var cardbody = document.createElement('div')
+    cardbody.className = 'cardbody card'
+    for (let i = 0; i < calendar.days.length; i++) {
+        var daycard = document.createElement('div')
+        daycard.className = 'day'
 
-    var daycards = document.querySelectorAll(`#c${id} div.day`)
-    var i = 0
-    daycards.forEach(daycard => {
-        daycard.innerHTML = 
-            `<div class="date">\
-                <h4>${calendar.days[i].date}</h4>\
-            </div>\
-            <div class="people"></div>`
-        
+        var date = document.createElement('div')
+        date.className = 'date'
+        var datetext = document.createElement('h4')
+        datetext.innerText = `${calendar.days[i].date}`
+        date.appendChild(datetext)
+        daycard.appendChild(date)
+
+        var people = document.createElement('div')
+        people.className = 'people'
         calendar.days[i].people.forEach(pearson => {
-            daycard.querySelector('.people').innerHTML +=
-                `<h4 class="pearson">${pearson}</h4>`
+            var pearsonname = document.createElement('h4')
+            pearsonname.className = 'pearson'
+            pearsonname.innerText = pearson
+            people.appendChild(pearsonname)
         });
-        i += 1
-    });
+        daycard.appendChild(people)
+
+        cardbody.appendChild(daycard)
+    }
+    container.appendChild(cardbody)
+
+    board.appendChild(container)
+
 }
 
 function drawDay(day) {
-    board.innerHTML += 
-        `<div class="dd">\
-            <div class="name">\
-                <h4>${day.subject.toUpperCase()}</h4>\
-            </div>\
-            \
-            <div class="days">\
-                <h4>|${day.days.toString().replace( /,/g, ' |---| ')}|</h4>\
-            </div>\
-        </div>`
+    var container = document.createElement('div')
+    container.className = 'dd'
+    
+    var name = document.createElement('div')
+    name.className = 'name'
+    var nametext = document.createElement('h4')
+    nametext.innerText = `${day.subject.toUpperCase()}`
+    name.appendChild(nametext)
+    container.appendChild(name)
+
+    var days = document.createElement('div')
+    days.className = 'days'
+    var daystext = document.createElement('h4')
+    daystext.innerText = `|${day.days.toString().replace( /,/g, ' |---| ')}|`
+    days.appendChild(daystext)
+    container.appendChild(days)
+
+    board.appendChild(container)
 }
 
 function drawRemoveItem(item) {
-    board.innerHTML += 
-        `<div class="dd">\
-            <div class="name">\
-                <h4>${item.subject.toUpperCase()}</h4>\
-            </div>\
-            \
-            <div class="days">\
-                <h4>| Inizio : ${item.days[1]} |</h4>\
-            </div>\
+    var container = document.createElement('div')
+    container.className = 'dd'
 
-            <button id="${item.id}" class="removebutton">Rimuovi</button>\
-        </div>`
-    
+    var name = document.createElement('div')
+    name.className = 'name'
+    var nametext = document.createElement('h4')
+    nametext.innerText = `${item.subject.toUpperCase()}`
+    name.appendChild(nametext)
+    container.appendChild(name)
+
+    var days = document.createElement('div')
+    days.className = 'days'
+    var daystext = document.createElement('h4')
+    daystext.innerText = `| Inizio : ${item.days[1]} |`
+    days.appendChild(daystext)
+    container.appendChild(days)
+
+    var removebutton = document.createElement('button')
+    removebutton.className = 'removebutton'
+    removebutton.innerText = 'Rimuovi'
+    removebutton.id = `${item.id}`
+    container.appendChild(removebutton)
+
+    board.appendChild(container)
+
     board.querySelectorAll('button.removebutton').forEach(butt => {
         butt.addEventListener('click', event => {
             fetchDeleteCalendar(event.target.id)
