@@ -99,7 +99,7 @@ function drawDay(day) {
     board.appendChild(container)
 }
 
-function drawRemoveItem(item) {
+function drawItem(item, type) {
     var container = document.createElement('div')
     container.className = 'dd'
 
@@ -117,18 +117,28 @@ function drawRemoveItem(item) {
     days.appendChild(daystext)
     container.appendChild(days)
 
-    var removebutton = document.createElement('button')
-    removebutton.className = 'removebutton'
-    removebutton.innerText = 'Rimuovi'
-    removebutton.id = `${item.id}`
-    container.appendChild(removebutton)
-
-    board.appendChild(container)
-
-    board.querySelectorAll('button.removebutton').forEach(butt => {
-        butt.addEventListener('click', event => {
+    var button = document.createElement('button')
+    if (type === 'remove') {
+        button.className = 'removebutton but'
+        button.innerText = 'Rimuovi'
+        button.addEventListener('click', event => {
             fetchDeleteCalendar(event.target.id)
             loadRemoveSection()
         })
-    });
+    }else if (type === 'modify') {
+        button.className = 'modifybutton but'
+        button.innerText = 'Modifica'
+        button.addEventListener('click', event => {
+            console.log(event.target)
+            drawmodifyitem()
+        })
+    }
+    button.id = `${item.id}`
+    container.appendChild(button)
+
+    board.appendChild(container)
+}
+
+function drawmodifyitem() {
+    ////////////////////////////////todo
 }

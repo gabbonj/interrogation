@@ -202,7 +202,8 @@ div#board {
 }
 
 h4.pearson {
-    transition-duration: 500ms;     
+    transition-duration: 500ms;
+    cursor: default; 
 }
 
 h4.pearson:hover {
@@ -258,11 +259,11 @@ div.days h4{
     font-weight: lighter;
 }
 
-h4#removetitle {
+#boardtitle {
     font-size: 30px;
 }
 
-button.removebutton {
+button.but {
     align-self: center;
     height: fit-content;
     outline: none;
@@ -279,4 +280,9 @@ button.removebutton:hover {
     background-color: #FF5252;
     border: 1px solid white;
     color: white;
+}
+
+button.modifybutton:hover {
+    background-color: rgb(136, 255, 136);
+    border: 1px solid white;
 }

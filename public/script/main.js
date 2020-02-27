@@ -1,5 +1,6 @@
 
 var board = document.getElementById('board')
+var boardtitle = document.getElementById('boardtitle')
 var subjectfilter = document.getElementById('subject')
 var mode = ''
 
@@ -32,15 +33,25 @@ async function loadRemoveSection() {
     boardColumn()
     resetUi()
 
-    board.innerHTML += '<h4 id="removetitle">Rimuovi calendari</h4>'
+    board.innerHTML = ''
+    boardtitle.innerText = 'Rimuovi calendari'
     const days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`)
     days.forEach(element => {
-        drawRemoveItem(element)
+        drawItem(element, mode)
     });
 }
 
-function loadModifySection() {
-    // TODO 
+async function loadModifySection() {
+    mode = 'modify'
+    boardColumn()
+    resetUi()
+
+    board.innerHTML = ''    
+    boardtitle.innerText = 'Modifica calendari'
+    const calendars = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`)
+    calendars.forEach(element => {
+        drawItem(element, mode)
+    });
 }
 
 async function loadFilteredData() {
@@ -57,10 +68,13 @@ async function loadFilteredData() {
         days.forEach(element => {
             drawDay(element)
         });
-    }else if (mode === 'remove') {
-        const days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/subject/${subjectfilter.value.toLowerCase()}/days`)
+    }else if (mode === 'remove' || 'modify') {
+        subjectfilter.value === '' ?  
+            days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`) : 
+            days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/subject/${subjectfilter.value.toLowerCase()}/days`)
+            
         days.forEach(element => {
-            drawRemoveItem(element)
+            drawItem(element, mode)
         });
     }
 }
