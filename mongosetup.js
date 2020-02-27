@@ -1,4 +1,5 @@
 const MongoClient  = require('mongodb').MongoClient
+const ObjectId = require('mongodb').ObjectId
 const url = 'mongodb://localhost:27017'
 const dbName = 'interrogation'
 
@@ -10,5 +11,5 @@ module.exports = {
             task(db)
         })
     },
-    ObjectId : require('mongodb').ObjectId
+    ObjectId : ObjectId
 }

@@ -129,8 +129,7 @@ function drawItem(item, type) {
         button.className = 'modifybutton but'
         button.innerText = 'Modifica'
         button.addEventListener('click', event => {
-            console.log(event.target)
-            drawmodifyitem()
+            drawmodifyitem(event.target.id)
         })
     }
     button.id = `${item.id}`
@@ -139,6 +138,55 @@ function drawItem(item, type) {
     board.appendChild(container)
 }
 
-function drawmodifyitem() {
-    ////////////////////////////////todo
+async function drawmodifyitem(itemid) {
+    resetUi()
+    const calendar = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/${itemid}`)
+    
+    var container = document.createElement('div')
+    container.className = 'editcalendar'
+
+    var subjectdisplay = document.createElement('div')
+    subjectdisplay.className = 'subjectdisplay'
+    var subjecttext = document.createElement('h4')
+    subjecttext.innerText = 'Materia:'
+    subjectdisplay.appendChild(subjecttext)
+    var subjectinput = document.createElement('input')
+    subjectinput.className = 'subject'
+    subjectdisplay.appendChild(subjectinput)
+    subjectinput.value = calendar.subject
+    container.appendChild(subjectdisplay)
+
+    var daysdisplay = document.createElement('div')
+    daysdisplay.className = 'daysdisplay'
+    var daystext = document.createElement('h4')
+    daystext.innerText = 'Giorni'
+    daysdisplay.appendChild(daystext)
+    for (let i = 0; i < calendar.days.length; i++) {
+        var dayrow = document.createElement('div')
+        dayrow.className = 'dayrow'
+        var dateinput = document.createElement('input')
+        dateinput.className = 'subject dateinput'
+        dateinput.value = calendar.days[i].date
+        dayrow.appendChild(dateinput)
+
+        var peopleinput = document.createElement('input')
+        peopleinput.className = 'subject peopleinput'
+        peopleinput.style.marginLeft ='10px'
+        peopleinput.value = calendar.days[i].people.toString()
+        dayrow.appendChild(peopleinput)
+
+        daysdisplay.appendChild(dayrow)
+    }
+    daysdisplay.style.marginTop = '10px'
+    container.appendChild(daysdisplay)
+
+    var modifybutton = document.createElement('button')
+    modifybutton.className = 'modifybutton but'
+    modifybutton.innerText = 'Modifica'
+    modifybutton.style.marginTop = '10px'
+    container.appendChild(modifybutton)
+
+    ////////////////////////////////////// aggiungere la parte per aggiungere o togliere una dayrow 
+
+    board.appendChild(container)
 }

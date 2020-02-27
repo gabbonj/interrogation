@@ -9,6 +9,7 @@ async function loadAllCalendars() {
     boardRow()
     resetUi()
 
+    boardtitle.innerText = ''
     const calendars = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/`)
     var index = 0
     calendars.forEach(element => {
@@ -22,6 +23,7 @@ async function loadAllDays(){
     boardRow()
     resetUi()
 
+    boardtitle.innerText = ''
     const days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`)
     days.forEach(element => {
         drawDay(element)
@@ -33,7 +35,6 @@ async function loadRemoveSection() {
     boardColumn()
     resetUi()
 
-    board.innerHTML = ''
     boardtitle.innerText = 'Rimuovi calendari'
     const days = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`)
     days.forEach(element => {
@@ -45,8 +46,7 @@ async function loadModifySection() {
     mode = 'modify'
     boardColumn()
     resetUi()
-
-    board.innerHTML = ''    
+  
     boardtitle.innerText = 'Modifica calendari'
     const calendars = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/days`)
     calendars.forEach(element => {

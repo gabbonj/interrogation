@@ -97,7 +97,7 @@ div.searchbar h4 {
     font-size: 20px;
 }
 
-div.searchbar input{
+input.subject{
     text-align: center;
     font-family: inherit;
     border: none;
@@ -285,4 +285,17 @@ button.removebutton:hover {
 button.modifybutton:hover {
     background-color: rgb(136, 255, 136);
     border: 1px solid white;
+}
+
+.dayrow {
+    display: flex;
+    justify-content: center;
+}
+
+.dateinput {
+    width: 10%;
+}
+
+.peopleinput {
+    width: 50%;
 }
