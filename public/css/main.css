@@ -263,11 +263,10 @@ div.days h4{
     font-size: 30px;
 }
 
-button.but {
+.but {
     align-self: center;
     height: fit-content;
     outline: none;
-    margin-right: 10px;
     padding: 10px;
     background: white;
     border: 1px solid #CBCBCB;
@@ -276,13 +275,21 @@ button.but {
     transition-duration: 200ms;
 }
 
-button.removebutton:hover {
+.removebutton {
+    margin-right: 10px; 
+}
+
+.modifybutton {
+    margin-right: 10px;
+}
+
+.removebutton:hover {
     background-color: #FF5252;
     border: 1px solid white;
     color: white;
 }
 
-button.modifybutton:hover {
+.modifybutton:hover {
     background-color: rgb(136, 255, 136);
     border: 1px solid white;
 }
@@ -298,4 +305,10 @@ button.modifybutton:hover {
 
 .peopleinput {
     width: 50%;
+    margin-top: 10px;
+    margin-right: 0;
+}
+
+input.modifybutton {
+    margin-right: 0;
 }

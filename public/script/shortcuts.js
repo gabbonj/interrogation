@@ -138,12 +138,18 @@ function drawItem(item, type) {
     board.appendChild(container)
 }
 
+function getJsonFromForm(form) {
+    var data = new FormData(form)
+    console.log(data.keys.toString())
+}
+
 async function drawmodifyitem(itemid) {
     resetUi()
     const calendar = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/${itemid}`)
     
-    var container = document.createElement('div')
+    var container = document.createElement('form')
     container.className = 'editcalendar'
+    container.action = "/"
 
     var subjectdisplay = document.createElement('div')
     subjectdisplay.className = 'subjectdisplay'
@@ -152,6 +158,7 @@ async function drawmodifyitem(itemid) {
     subjectdisplay.appendChild(subjecttext)
     var subjectinput = document.createElement('input')
     subjectinput.className = 'subject'
+    subjectinput.name = 'subject0'
     subjectdisplay.appendChild(subjectinput)
     subjectinput.value = calendar.subject
     container.appendChild(subjectdisplay)
@@ -164,15 +171,19 @@ async function drawmodifyitem(itemid) {
     for (let i = 0; i < calendar.days.length; i++) {
         var dayrow = document.createElement('div')
         dayrow.className = 'dayrow'
+        dayrow.id = i
+
         var dateinput = document.createElement('input')
         dateinput.className = 'subject dateinput'
         dateinput.value = calendar.days[i].date
+        dateinput.name = `date${i}`
         dayrow.appendChild(dateinput)
 
         var peopleinput = document.createElement('input')
         peopleinput.className = 'subject peopleinput'
         peopleinput.style.marginLeft ='10px'
         peopleinput.value = calendar.days[i].people.toString()
+        peopleinput.name = `people${i}`
         dayrow.appendChild(peopleinput)
 
         daysdisplay.appendChild(dayrow)
@@ -180,13 +191,15 @@ async function drawmodifyitem(itemid) {
     daysdisplay.style.marginTop = '10px'
     container.appendChild(daysdisplay)
 
-    var modifybutton = document.createElement('button')
-    modifybutton.className = 'modifybutton but'
-    modifybutton.innerText = 'Modifica'
-    modifybutton.style.marginTop = '10px'
-    container.appendChild(modifybutton)
+    var sendbutton = document.createElement('button')
+    sendbutton.className = 'but modifybutton'
+    sendbutton.innerText = 'Conferma'
+    sendbutton.style.marginTop = '10px'
+    container.appendChild(sendbutton)
 
     ////////////////////////////////////// aggiungere la parte per aggiungere o togliere una dayrow 
 
     board.appendChild(container)
+    // fix this
+    sendbutton.onclick = getJsonFromForm(container)
 }
