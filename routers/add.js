@@ -13,7 +13,6 @@ router.post('/calendar', (req, res) => {
         if (req.body && req.body.subject && req.body.days){
             mongoSetup.connect(db => {
                 db.collection('calendars').insertOne(req.body)
-                db.close()
             })
             res.send('Calendar added')
         }else{

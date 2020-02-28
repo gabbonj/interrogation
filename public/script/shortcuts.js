@@ -138,8 +138,9 @@ function drawItem(item, type) {
     }else if (type === 'modify') {
         button.className = 'modifybutton but'
         button.innerText = 'Modifica'
-        button.addEventListener('click', event => {
-            drawmodifyitem(event.target.id)
+        button.addEventListener('click', async event => {
+            var car = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/${event.target.id}`)
+            drawmeditItem(car)
         })
     }
     button.id = `${item.id}`
@@ -165,9 +166,8 @@ function getJsonFromForm(form) {
     return newcalendar
 }
 
-async function drawmodifyitem(itemid) {
+async function drawmeditItem(calendar, copy) {
     resetUi()
-    const calendar = await getJsonFromFetch(`http://${urlstart}:8080/api/interrogations/${itemid}`)
     
     var container = document.createElement('form')
     container.className = 'editcalendar'
@@ -218,6 +218,11 @@ async function drawmodifyitem(itemid) {
     addday.className = 'addbutton but'
     addday.innerText = '+'
     container.appendChild(addday)
+
+    var remday = document.createElement('button')
+    remday.className = 'addbutton but'
+    remday.innerText = '-'
+    container.appendChild(remday)
     container.appendChild(document.createElement('br'))
 
     var sendbutton = document.createElement('button')
@@ -227,15 +232,31 @@ async function drawmodifyitem(itemid) {
     sendbutton.form = 'modform'
     container.appendChild(sendbutton)
 
-
-    ////////////////////////////////////// aggiungere la parte per aggiungere o togliere una dayrow 
-
     board.appendChild(container)
-    // fix this
+    
+    addday.addEventListener('click', event => {
+        var newrow = document.getElementById('0').cloneNode(true)
+        newrow.id = document.querySelectorAll('.dayrow').length
+        newrow.querySelector('.peopleinput').value = ''
+        newrow.querySelector('.peopleinput').name = `people${newrow.id}`
+        newrow.querySelector('.dateinput').value = ''
+        newrow.querySelector('.dateinput').name = `date${newrow.id}`
+        daysdisplay.appendChild(newrow)
+    })
+
+    remday.addEventListener('click', event => {
+        var display = document.querySelector('.daysdisplay')
+        var item = document.getElementById(
+            `${display.querySelectorAll('.dayrow').length - 1}`
+        )
+        item.parentNode.removeChild(item);
+    })
+
     sendbutton.addEventListener('click', event => {
         const newcalendar = getJsonFromForm(container)
         fetchAddCalendar(newcalendar)
         fetchDeleteCalendar(calendar._id)
         loadAllCalendars()
+
     })
 }

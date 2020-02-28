@@ -54,6 +54,15 @@ async function loadModifySection() {
     });
 }
 
+function loadAddSection() {
+    mode = 'add'
+    boardColumn()
+    resetUi()
+
+    boardtitle.innerText = 'Aggiungi calendario'
+    drawmeditItem( {subject : '', days : [ {date : '', people : []} ]} )
+}
+
 async function loadFilteredData() {
     board.innerHTML = ''
     if (mode === 'calendars') {
@@ -84,5 +93,6 @@ document.getElementById('days').onclick = loadAllDays
 document.getElementById('filter').onclick = loadFilteredData
 document.getElementById('rem').onclick = loadRemoveSection
 document.getElementById('cng').onclick = loadModifySection
+document.getElementById('add').onclick = loadAddSection
 
 loadAllCalendars()
