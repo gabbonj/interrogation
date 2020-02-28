@@ -35,6 +35,16 @@ function fetchDeleteCalendar(id) {
     fetch(`http://${urlstart}:8080/api/delete/${id}`, deleteRequest)
 }
 
+function fetchAddCalendar(calendar) {
+    fetch(`http://${urlstart}:8080/api/add/calendar`, {
+        method : 'POST',
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify(calendar)
+    })
+}
+
 
 function drawCalendar(calendar, id) {
     var container = document.createElement('div')
@@ -139,8 +149,20 @@ function drawItem(item, type) {
 }
 
 function getJsonFromForm(form) {
-    var data = new FormData(form)
-    console.log(data.keys.toString())
+    const data = new FormData(form)
+    var newcalendar = { 
+        subject : data.get('subject0'),
+        days : [] 
+    }
+
+    form.querySelectorAll('.dayrow').forEach(row => {
+        var day = {
+            date : data.get(`date${row.id}`),
+            people : data.get(`people${row.id}`).split(',')
+        }
+        newcalendar.days.push(day)
+    });
+    return newcalendar
 }
 
 async function drawmodifyitem(itemid) {
@@ -149,7 +171,8 @@ async function drawmodifyitem(itemid) {
     
     var container = document.createElement('form')
     container.className = 'editcalendar'
-    container.action = "/"
+    container.action = "javascript:void(0)"
+    container.id = 'modform'
 
     var subjectdisplay = document.createElement('div')
     subjectdisplay.className = 'subjectdisplay'
@@ -191,15 +214,28 @@ async function drawmodifyitem(itemid) {
     daysdisplay.style.marginTop = '10px'
     container.appendChild(daysdisplay)
 
+    var addday = document.createElement('button')
+    addday.className = 'addbutton but'
+    addday.innerText = '+'
+    container.appendChild(addday)
+    container.appendChild(document.createElement('br'))
+
     var sendbutton = document.createElement('button')
     sendbutton.className = 'but modifybutton'
     sendbutton.innerText = 'Conferma'
     sendbutton.style.marginTop = '10px'
+    sendbutton.form = 'modform'
     container.appendChild(sendbutton)
+
 
     ////////////////////////////////////// aggiungere la parte per aggiungere o togliere una dayrow 
 
     board.appendChild(container)
     // fix this
-    sendbutton.onclick = getJsonFromForm(container)
+    sendbutton.addEventListener('click', event => {
+        const newcalendar = getJsonFromForm(container)
+        fetchAddCalendar(newcalendar)
+        fetchDeleteCalendar(calendar._id)
+        loadAllCalendars()
+    })
 }

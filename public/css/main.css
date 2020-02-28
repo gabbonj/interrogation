@@ -312,3 +312,12 @@ div.days h4{
 input.modifybutton {
     margin-right: 0;
 }
+
+.addbutton {
+    font-weight: bolder;
+    margin-top: 10px;
+}
+
+.addbutton:hover {
+    background-color: #E066FF;
+}
