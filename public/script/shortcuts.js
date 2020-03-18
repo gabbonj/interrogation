@@ -166,7 +166,7 @@ function getJsonFromForm(form) {
     return newcalendar
 }
 
-async function drawmeditItem(calendar, copy) {
+async function drawmeditItem(calendar) {
     resetUi()
     
     var container = document.createElement('form')
